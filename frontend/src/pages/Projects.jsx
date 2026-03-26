@@ -2,10 +2,9 @@
  * PROJECTS PAGE — Animated layout transitions when filtering.
  */
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { useData } from "../context/index.jsx";
-import { allProjectTags } from "../data/data.js";
 import { useDebounce, usePagination } from "../hooks/index.js";
 import ProjectCard from "../components/ProjectCard.jsx";
 import TiltCard from "../components/TiltCard.jsx";
@@ -19,6 +18,11 @@ export default function Projects() {
   const [search, setSearch] = useState("");
   const [activeTag, setActiveTag] = useState("All");
   const debouncedSearch = useDebounce(search);
+
+  const allProjectTags = useMemo(
+    () => [...new Set(projects.flatMap((p) => p.tags || []))].sort(),
+    [projects]
+  );
 
   const filtered = projects.filter((p) => {
     const matchesSearch =

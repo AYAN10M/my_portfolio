@@ -182,22 +182,30 @@ export default function AdminProjects() {
     setTimeout(() => setSuccessMsg(""), 3000);
   };
 
-  const handleSave = (data) => {
-    if (mode === "add") {
-      addProject(data);
-      showSuccess("Project added successfully!");
-    } else {
-      updateProject(editingProject.id, data);
-      showSuccess("Project updated successfully!");
+  const handleSave = async (data) => {
+    try {
+      if (mode === "add") {
+        await addProject(data);
+        showSuccess("Project added successfully!");
+      } else {
+        await updateProject(editingProject.slug, data);
+        showSuccess("Project updated successfully!");
+      }
+      setMode("list");
+      setEditingProject(null);
+    } catch (e) {
+      showSuccess("Error: " + e.message);
     }
-    setMode("list");
-    setEditingProject(null);
   };
 
-  const handleDelete = (id) => {
-    deleteProject(id);
-    setDeleteConfirm(null);
-    showSuccess("Project deleted.");
+  const handleDelete = async (slug) => {
+    try {
+      await deleteProject(slug);
+      setDeleteConfirm(null);
+      showSuccess("Project deleted.");
+    } catch (e) {
+      showSuccess("Error: " + e.message);
+    }
   };
 
   return (
@@ -294,7 +302,7 @@ export default function AdminProjects() {
                       Edit
                     </button>
                     <button
-                      onClick={() => setDeleteConfirm(project.id)}
+                      onClick={() => setDeleteConfirm(project.slug)}
                       className="text-xs px-3 py-1.5 rounded-lg border border-red-200 dark:border-red-800 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
                     >
                       Delete

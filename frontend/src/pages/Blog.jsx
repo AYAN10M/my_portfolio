@@ -2,10 +2,9 @@
  * BLOG PAGE — Animated layout transitions when filtering.
  */
 
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { motion, AnimatePresence, LayoutGroup } from "framer-motion";
 import { useData } from "../context/index.jsx";
-import { allBlogTags } from "../data/data.js";
 import { useDebounce, usePagination } from "../hooks/index.js";
 import BlogCard from "../components/BlogCard.jsx";
 import TiltCard from "../components/TiltCard.jsx";
@@ -19,6 +18,11 @@ export default function Blog() {
   const [search, setSearch] = useState("");
   const [activeTag, setActiveTag] = useState("All");
   const debouncedSearch = useDebounce(search);
+
+  const allBlogTags = useMemo(
+    () => [...new Set(blogs.flatMap((b) => b.tags || []))].sort(),
+    [blogs]
+  );
 
   const publishedBlogs = blogs.filter((b) => b.published);
 

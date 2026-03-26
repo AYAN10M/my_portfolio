@@ -116,7 +116,7 @@ export default function Home() {
 
           <FadeIn delay={0.5}>
             <div className="mt-12 flex flex-wrap gap-2">
-              {["React", "Flutter", "Python", "Django", "Tailwind CSS"].map((tech) => (
+              {["Flutter", "Django", "React", "Python", "PostgreSQL"].map((tech) => (
                 <span key={tech} className="tag">{tech}</span>
               ))}
             </div>
@@ -170,9 +170,9 @@ export default function Home() {
         <div className="container-custom">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
             {[
-              { value: "15+", label: "Projects Built" },
-              { value: "3+", label: "Years Experience" },
-              { value: "8+", label: "Blog Articles" },
+              { value: `${projects.length}`, label: "Projects Built" },
+              { value: "94+", label: "Anime Watched" },
+              { value: `${blogs.length}`, label: "Blog Articles" },
               { value: "100%", label: "Remote Ready" },
             ].map((stat, i) => (
               <FadeIn key={stat.label} delay={i * 0.1}>

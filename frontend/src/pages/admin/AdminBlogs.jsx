@@ -172,27 +172,39 @@ export default function AdminBlogs() {
     setTimeout(() => setSuccessMsg(""), 3000);
   };
 
-  const handleSave = (data) => {
-    if (mode === "add") {
-      addBlog(data);
-      showSuccess("Post created successfully!");
-    } else {
-      updateBlog(editingBlog.id, data);
-      showSuccess("Post updated successfully!");
+  const handleSave = async (data) => {
+    try {
+      if (mode === "add") {
+        await addBlog(data);
+        showSuccess("Post created successfully!");
+      } else {
+        await updateBlog(editingBlog.slug, data);
+        showSuccess("Post updated successfully!");
+      }
+      setMode("list");
+      setEditingBlog(null);
+    } catch (e) {
+      showSuccess("Error: " + e.message);
     }
-    setMode("list");
-    setEditingBlog(null);
   };
 
-  const handleTogglePublish = (blog) => {
-    updateBlog(blog.id, { published: !blog.published });
-    showSuccess(blog.published ? "Post unpublished." : "Post published!");
+  const handleTogglePublish = async (blog) => {
+    try {
+      await updateBlog(blog.slug, { ...blog, published: !blog.published });
+      showSuccess(blog.published ? "Post unpublished." : "Post published!");
+    } catch (e) {
+      showSuccess("Error: " + e.message);
+    }
   };
 
-  const handleDelete = (id) => {
-    deleteBlog(id);
-    setDeleteConfirm(null);
-    showSuccess("Post deleted.");
+  const handleDelete = async (slug) => {
+    try {
+      await deleteBlog(slug);
+      setDeleteConfirm(null);
+      showSuccess("Post deleted.");
+    } catch (e) {
+      showSuccess("Error: " + e.message);
+    }
   };
 
   return (
@@ -284,7 +296,7 @@ export default function AdminBlogs() {
                       Edit
                     </button>
                     <button
-                      onClick={() => setDeleteConfirm(blog.id)}
+                      onClick={() => setDeleteConfirm(blog.slug)}
                       className="text-xs px-3 py-1.5 rounded-lg border border-red-200 dark:border-red-800 text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-all"
                     >
                       Delete

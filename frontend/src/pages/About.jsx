@@ -1,40 +1,16 @@
 /**
- * ABOUT PAGE - Animated skill bars, text reveal, magnetic buttons.
+ * ABOUT PAGE - Skills as tags, education, certifications, achievements, interests.
  */
 
 import { motion } from "framer-motion";
-import { ownerInfo, skills, experience } from "../data/data.js";
+import { ownerInfo, skills, experience, education, certifications, achievements } from "../data/data.js";
 import { PageTransition, SectionHeader, FadeIn } from "../components/UI.jsx";
 import MagneticWrap from "../components/MagneticWrap.jsx";
 import TextReveal from "../components/TextReveal.jsx";
 import { useInView } from "../hooks/index.js";
 import { Link } from "react-router-dom";
-
-/* ── Skill level mapping (simulated) ─────────────────────── */
-const skillLevels = {
-  "React": 95, "Next.js": 85, "Tailwind CSS": 92, "TypeScript": 82, "Framer Motion": 78,
-  "Flutter": 88, "Dart": 85, "React Native": 70,
-  "Python": 90, "Django": 88, "Django REST Framework": 85, "Node.js": 75, "PostgreSQL": 80,
-  "Git": 92, "Docker": 72, "Figma": 78, "Vercel": 85, "AWS": 68,
-};
-
-function SkillBar({ name, level }) {
-  const [ref, inView] = useInView();
-  return (
-    <div ref={ref} className="space-y-1">
-      <div className="flex justify-between items-center">
-        <span className="text-sm" style={{ color: "var(--text-secondary)" }}>{name}</span>
-        <span className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>{level}%</span>
-      </div>
-      <div className="skill-bar-track">
-        <div
-          className="skill-bar-fill"
-          style={{ width: inView ? `${level}%` : "0%" }}
-        />
-      </div>
-    </div>
-  );
-}
+import LeetCodeStats from "../components/LeetCodeStats.jsx";
+import CodeforcesStats from "../components/CodeforcesStats.jsx";
 
 export default function About() {
   return (
@@ -53,8 +29,8 @@ export default function About() {
                 }}
               >About Me</p>
               <h1 className="section-title mb-6">
-                Designer who<br />
-                <span className="italic font-display" style={{ color: "var(--text-muted)" }}>codes.</span>
+                Developer who<br />
+                <span className="italic font-display" style={{ color: "var(--text-muted)" }}>builds.</span>
               </h1>
               <div className="space-y-4 leading-relaxed" style={{ color: "var(--text-secondary)" }}>
                 {ownerInfo.bio.split("\n\n").map((para, i) => (
@@ -90,7 +66,6 @@ export default function About() {
                       border: "1px solid var(--glass-border)",
                     }}
                   >
-                    {/* Image with parallax shift on hover */}
                     <img
                       src={"src/assets/profile_pic.png"}
                       alt={ownerInfo.name}
@@ -108,10 +83,52 @@ export default function About() {
             </FadeIn>
           </div>
 
-          {/* ─── SKILLS (animated bars) ─────────────────────────── */}
+          {/* ─── EDUCATION ──────────────────────────────────────── */}
+          <section className="mb-24">
+            <SectionHeader eyebrow="Academic" title="Education" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {education.map((edu, i) => (
+                <FadeIn key={i} delay={i * 0.1}>
+                  <div className="glass-glow rounded-2xl p-6 h-full">
+                    <p className="font-mono text-xs tracking-widest uppercase mb-3"
+                      style={{
+                        background: "linear-gradient(135deg, var(--accent), var(--glow-cyan))",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                      }}
+                    >{edu.period}</p>
+                    <h3 className="font-semibold mb-1" style={{ color: "var(--text-primary)" }}>{edu.degree}</h3>
+                    <p className="text-sm mb-3" style={{ color: "var(--text-secondary)" }}>{edu.institution}</p>
+                    <span className="inline-block font-mono text-xs px-3 py-1 rounded-full"
+                      style={{
+                        color: "var(--accent)",
+                        background: "var(--bg-surface)",
+                        border: "1px solid var(--glass-border)",
+                      }}
+                    >{edu.grade}</span>
+                  </div>
+                </FadeIn>
+              ))}
+            </div>
+          </section>
+
+          {/* ─── DSA / COMPETITIVE PROGRAMMING ──────────────── */}
+          <section className="mb-24">
+            <SectionHeader eyebrow="Problem Solving" title="DSA & Competitive" subtitle="Sharpening algorithmic thinking one problem at a time." />
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+              <FadeIn>
+                <LeetCodeStats />
+              </FadeIn>
+              <FadeIn delay={0.15}>
+                <CodeforcesStats />
+              </FadeIn>
+            </div>
+          </section>
+
+          {/* ─── SKILLS (tag cloud — no percentages) ──────────── */}
           <section className="mb-24">
             <SectionHeader eyebrow="Expertise" title="Skills" subtitle="Technologies I work with on a daily basis." />
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {skills.map((group, i) => (
                 <FadeIn key={group.category} delay={i * 0.1}>
                   <div className="glass-glow rounded-2xl p-6 h-full">
@@ -122,13 +139,14 @@ export default function About() {
                         WebkitTextFillColor: "transparent",
                       }}
                     >{group.category}</p>
-                    <div className="space-y-3">
+                    <div className="flex flex-wrap gap-2">
                       {group.items.map((skill) => (
-                        <SkillBar
+                        <span
                           key={skill}
-                          name={skill}
-                          level={skillLevels[skill] || 70}
-                        />
+                          className="tag"
+                        >
+                          {skill}
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -137,9 +155,9 @@ export default function About() {
             </div>
           </section>
 
-          {/* ─── EXPERIENCE ────────────────────────────────────── */}
+          {/* ─── EXPERIENCE / PROJECTS ─────────────────────────── */}
           <section className="mb-24">
-            <SectionHeader eyebrow="Journey" title="Experience" />
+            <SectionHeader eyebrow="Journey" title="Projects & Experience" />
             <div className="relative">
               <div className="absolute left-4 top-0 bottom-0 w-px hidden md:block"
                 style={{
@@ -181,20 +199,92 @@ export default function About() {
             </div>
           </section>
 
-          {/* ─── FUN FACTS ─────────────────────────────────────── */}
+          {/* ─── CERTIFICATIONS & ACHIEVEMENTS ──────────────────── */}
+          <section className="mb-24">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {/* Certifications */}
+              <FadeIn>
+                <div className="glass-glow rounded-2xl p-6 h-full">
+                  <p className="font-mono text-xs tracking-widest uppercase mb-5"
+                    style={{
+                      background: "linear-gradient(135deg, var(--accent), var(--glow-cyan))",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >Certifications</p>
+                  <div className="space-y-4">
+                    {certifications.map((cert, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <span className="text-accent text-lg mt-0.5">◈</span>
+                        <div>
+                          <p className="font-medium text-sm" style={{ color: "var(--text-primary)" }}>{cert.title}</p>
+                          <p className="text-xs font-mono" style={{ color: "var(--text-muted)" }}>{cert.issuer}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </FadeIn>
+
+              {/* Achievements */}
+              <FadeIn delay={0.1}>
+                <div className="glass-glow rounded-2xl p-6 h-full">
+                  <p className="font-mono text-xs tracking-widest uppercase mb-5"
+                    style={{
+                      background: "linear-gradient(135deg, var(--accent), var(--glow-purple))",
+                      WebkitBackgroundClip: "text",
+                      WebkitTextFillColor: "transparent",
+                    }}
+                  >Achievements</p>
+                  <div className="space-y-4">
+                    {achievements.map((ach, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <span className="text-accent text-lg mt-0.5">🏆</span>
+                        <p className="text-sm leading-relaxed" style={{ color: "var(--text-secondary)" }}>{ach}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </FadeIn>
+            </div>
+          </section>
+
+          {/* ─── BEYOND CODE (Personal Interests) ─────────────── */}
           <section>
-            <SectionHeader eyebrow="Outside Code" title="A bit more about me" />
+            <SectionHeader eyebrow="Beyond Code" title="A bit more about me" />
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {[
-                { emoji: "☕", label: "Coffee per day", value: "3–4 cups" },
-                { emoji: "📚", label: "Books read this year", value: "12" },
-                { emoji: "🎸", label: "Hobby", value: "Amateur guitarist" },
+                {
+                  emoji: "⚽",
+                  label: "Football Fanatic",
+                  value: "Visca el Barça!",
+                  detail: "Huge FC Barcelona fan and Messi loyalist. La Pulga is the GOAT, no debate.",
+                },
+                {
+                  emoji: "🎌",
+                  label: "Anime Enthusiast",
+                  value: "94+ Anime Watched",
+                  detail: "AoT, Naruto, FMA:B, Death Note — all 10/10. Currently watching Frieren S2.",
+                  link: "https://myanimelist.net/animelist/AYAN10M",
+                },
+                {
+                  emoji: "💻",
+                  label: "Builder at Heart",
+                  value: "Full Stack Dev",
+                  detail: "From Flutter apps to Django APIs — I love turning ideas into working products.",
+                },
               ].map((item, i) => (
                 <FadeIn key={item.label} delay={i * 0.1}>
-                  <div className="glass-glow rounded-2xl p-6 text-center">
+                  <div className="glass-glow rounded-2xl p-6 text-center h-full flex flex-col">
                     <p className="text-4xl mb-3">{item.emoji}</p>
-                    <p className="font-semibold" style={{ color: "var(--text-primary)" }}>{item.value}</p>
-                    <p className="text-xs font-mono mt-1" style={{ color: "var(--text-muted)" }}>{item.label}</p>
+                    <p className="font-semibold mb-1" style={{ color: "var(--text-primary)" }}>{item.value}</p>
+                    <p className="text-xs font-mono mb-2" style={{ color: "var(--text-muted)" }}>{item.label}</p>
+                    <p className="text-xs leading-relaxed mt-auto" style={{ color: "var(--text-secondary)" }}>{item.detail}</p>
+                    {item.link && (
+                      <a href={item.link} target="_blank" rel="noreferrer"
+                        className="text-xs text-accent hover:underline mt-2 font-mono"
+                      >MyAnimeList ↗</a>
+                    )}
                   </div>
                 </FadeIn>
               ))}

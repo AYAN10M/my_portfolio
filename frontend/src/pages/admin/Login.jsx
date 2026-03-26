@@ -35,10 +35,7 @@ export default function AdminLogin() {
     setLoading(true);
     setError("");
 
-    // Simulate network delay
-    await new Promise((res) => setTimeout(res, 800));
-
-    const result = login(form.username, form.password);
+    const result = await login(form.username, form.password);
 
     if (result.success) {
       navigate("/admin/dashboard");
@@ -68,12 +65,11 @@ export default function AdminLogin() {
         <div className="bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl p-8">
           <h1 className="text-xl font-semibold text-zinc-900 dark:text-white mb-6">Sign in</h1>
 
-          {/* Demo hint */}
-          <div className="bg-accent/10 border border-accent/30 rounded-xl p-3 mb-6">
-            <p className="text-xs font-mono text-zinc-700 dark:text-zinc-300">
-              Demo credentials:<br />
-              <strong>username:</strong> admin<br />
-              <strong>password:</strong> admin123
+          {/* Auth hint */}
+          <div className="bg-zinc-100 dark:bg-zinc-800 border border-zinc-200 dark:border-zinc-700 rounded-xl p-3 mb-6">
+            <p className="text-xs font-mono text-zinc-500 dark:text-zinc-400">
+              Use your Django superuser credentials.<br />
+              <span className="text-zinc-400 dark:text-zinc-500">Create one with: python manage.py createsuperuser</span>
             </p>
           </div>
 
