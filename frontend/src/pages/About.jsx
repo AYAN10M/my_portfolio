@@ -92,7 +92,7 @@ export default function About() {
                   >
                     {/* Image with parallax shift on hover */}
                     <img
-                      src={ownerInfo.avatar}
+                      src={"src/assets/profile_pic.png"}
                       alt={ownerInfo.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />

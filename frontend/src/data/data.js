@@ -12,21 +12,21 @@
 // ─── PORTFOLIO OWNER INFO ─────────────────────────────────────────────
 export const ownerInfo = {
   name: "Ayan Haldar",
-  role: "Full Stack Developer & UI Engineer",
-  tagline: "I build things for the web — clean, fast, and purposeful.",
+  role: "Flutter Developer & Aspiring Cybersecurity Enthusiast",
+  tagline: "I love to build things which solve real world problems.",
   bio: `Hey, I'm Ayan. A developer who loves the intersection of design and engineering.
 I specialize in React, Flutter, and Python/Django — building everything from 
 sleek mobile apps to robust REST APIs. I care deeply about developer experience, 
 clean code, and interfaces that just feel right.
 
 When I'm not coding, I'm writing about it.`,
-  location: "San Francisco, CA",
+  location: "Kolkata, West Bengal, India",
   email: "alex@example.com",
   avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=Alex&backgroundColor=b6e3f4",
   socials: {
-    github: "https://github.com",
+    github: "https://github.com/AYAN10M",
     twitter: "https://twitter.com",
-    linkedin: "https://linkedin.com",
+    linkedin: "https://www.linkedin.com/in/haldar-ayan/",
     dribbble: "https://dribbble.com",
   },
 };
