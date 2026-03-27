@@ -67,7 +67,7 @@ export default function About() {
                     }}
                   >
                     <img
-                      src={"src/assets/profile_pic.png"}
+                      src={"/profile_pic.png"}
                       alt={ownerInfo.name}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
